@@ -1,0 +1,1 @@
+Arreglo de fallo de texto en el idioma valenciano.

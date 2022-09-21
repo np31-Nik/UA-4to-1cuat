@@ -1,0 +1,5 @@
+Nueva version estable, cambios con respecto a 1.2.0:
+La aplicacion pide seleccionar un idioma (ES,EN,IT,VAL) al iniciar la aplicacion.
+Luego imprime por pantalla el saludo en ese idioma.
+Luego pide introducir Enter en el idioma seleccionado.
+Por ultimo se despide en ese mismo idioma.

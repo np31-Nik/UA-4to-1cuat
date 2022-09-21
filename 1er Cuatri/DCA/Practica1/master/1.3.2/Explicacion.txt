@@ -1,0 +1,2 @@
+Nueva funcion:
+Despues de introducir la tecla Enter, la aplicacion se despide en el idioma elegido.

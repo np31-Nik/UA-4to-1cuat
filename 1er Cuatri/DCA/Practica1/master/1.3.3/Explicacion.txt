@@ -1,0 +1,1 @@
+Importacion del arreglo de la version 1.2.1 (Error de texto en valenciano)

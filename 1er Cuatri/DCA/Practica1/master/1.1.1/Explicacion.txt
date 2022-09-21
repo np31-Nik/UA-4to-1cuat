@@ -1,0 +1,1 @@
+Arreglado el fallo de no esperar a la tecla Enter antes de continuar.

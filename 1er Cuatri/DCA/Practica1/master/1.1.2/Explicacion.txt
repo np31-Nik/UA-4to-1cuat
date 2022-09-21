@@ -1,0 +1,1 @@
+Cambio del idioma del texto correspondiente a la nueva funcionalidad al español.

@@ -1,0 +1,2 @@
+Arreglo de un error de texto.
+"Presiona Enter para continur..." -> "Presiona Enter para continuar..."

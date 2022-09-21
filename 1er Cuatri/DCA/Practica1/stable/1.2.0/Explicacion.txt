@@ -1,0 +1,2 @@
+Nueva version estable. Cambios con respecto a la 1.0.0:
+La aplicacion espera a la entrada de la tecla Enter antes y despues del mensaje de "Hello World"

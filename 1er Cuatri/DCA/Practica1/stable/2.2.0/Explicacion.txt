@@ -1,0 +1,2 @@
+Nueva version estable, cambios con respecto a 2.0.1:
+Añadido el idioma Portugues.
