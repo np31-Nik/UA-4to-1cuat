@@ -1,0 +1,69 @@
+<html>
+    <!-- Serhii Vidernikov Y4459773H
+         Nikita Polyanskiy Y4441167L -->
+    <head>
+        <style>
+          #chat {width: 100%; height: 70%; background-color: yellow;
+          margin-top: 1em; overflow: scroll;}
+        </style>       
+    </head>
+    <body>
+        <h1>El fastuoso chat con websockets</h1>
+        <p>El ejercicio consiste en implementar la parte cliente de un char con websockets. La parte del servidor ya está hecha 
+            y desplegada en ejercicio-ws-22.glitch.me</p>
+        <p>Implementar 3 cosas (está todo <b>comentado en el fuente de esta página</b>)</p> 
+        <ol>
+            <li>Crear el websocket cliente que comunique con el servidor</li>
+            <li>A partir de la línea 54, escribir código que mande el mensaje escrito en local al servidor por el websocket</li>
+            <li>A partir de la línea 65, escribir código que reciba todos los mensajes de chat dal servidor por el websocket</li>
+        </ol>   
+        <label for="alias">Alias:</label>
+        <input type="text" id="alias">
+        <label for="mensaje">Mensaje:</label>
+        <input type="text" id="mensaje">
+        <button id="enviar">Enviar</button>
+        <div id="chat">
+        </div>
+        <script>
+            //ORDEN DE IMPLEMENTACION RECOMENDADO
+            //1. Crear el websocket de cliente --> 
+            //2. funcionalidad de enviar mensaje al servidor
+            //3. Crear el manejador "onmessage" que muestra mensajes recibidos del servidor
+
+            //1. TO-DO: Crear el websocket cliente
+            //a la URL wss://ejercicio-ws-22.glitch.me/
+            var ws = new WebSocket('wss://ejercicio-ws-22.glitch.me/')
+       
+            //función a la que se le pasa un nombre de usuario y un texto
+            //y pinta el mensaje en el recuadro de chat
+            //NO TOCAR ESTA FUNCION
+            function pintarMensajeEnChat(alias, texto) {
+                var texto_formato = `<b>${alias}:</b> ${texto} <br>`
+                document.getElementById('chat').insertAdjacentHTML('beforeend', texto_formato)
+                var chatObj = document.getElementById('chat')
+                chatObj.scrollTop = chatObj.scrollHeight
+            }
+
+            //2. ENVIAR MENSAJE AL SERVIDOR
+            document.getElementById('enviar').addEventListener('click', function() {
+                var t = document.getElementById('mensaje').value
+                var a = document.getElementById('alias').value
+                console.log('El usuario: ' +  a + ' ha escrito: ' + t)
+              
+								let js = {alias:a,texto:t}
+              	ws.send(JSON.stringify(js))
+            })
+            
+            //3. RECIBIR MENSAJES DEL SERVIDOR
+            document.addEventListener('DOMContentLoaded', function(){
+                console.log("La página se acaba de cargar")
+              	ws.onmessage = function(resp){
+		            const obj = JSON.parse(resp.data)
+                    pintarMensajeEnChat(obj.alias, obj.texto)
+                    
+                }
+            })
+            
+        </script>
+    </body>
+</html>
