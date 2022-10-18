@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <title>owowow</title>
+    </head>
+    <button id="buttonet">wow?</button>
+    <h2 id="titulo" ></h2>
+    <div id="contenido"></div>
+    
+    <script type="module">
+        import {ClienteAPI} from './api.js'
+
+        document.getElementById("buttonet").addEventListener('click',async function(){
+            var cliente = new ClienteAPI()
+            var datos = await cliente.getRandomWow()
+            console.log(datos)
+            buttonet.textContent="WOW!"
+
+           var titulo = document.getElementById('titulo')
+           // titulo.textContent=datos[0].movie
+            titulo.innerText=datos[0].movie
+
+            var contenido = document.getElementById('contenido')
+            contenido.innerHTML="<video id='video' src="+datos[0].video["360p"]+" controls></video>"
+        })
+    </script>
+</html>
