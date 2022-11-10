@@ -1,0 +1,22 @@
+{
+  "name": "lista_compra",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "devel": "parcel lista.html",
+    "build": "parcel build lista.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "2.5.0"
+  },
+  "browserslist": [
+    ">5%"
+  ],
+  "dependencies": {
+    "handlebars": "^4.7.7"
+  }
+}

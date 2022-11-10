@@ -1,0 +1,122 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="lista.css"/>
+</head>
+<body>
+    <div id="app">
+        <lista/>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="module">
+        import {ClienteAPI} from './servicios/ClienteAPI.js'
+        var app = Vue.createApp({})
+        app.component('lista',{
+            async created() {
+                var cliente = new ClienteAPI('http://localhost:3000/items')
+                var datos = await cliente.getItems()
+                this.items = datos
+            },
+            data: function() {
+                return {
+                    items:[],
+                    cliente: new ClienteAPI('http://localhost:3000/items')
+                }
+            },
+            methods: {
+                async cambiarEstado(id) {
+                    var encontrado = this.items.find(function(item){
+                        return item.id == id
+                    })
+                    if (encontrado) {
+                        //actualizar interfaz
+                        encontrado.comprado = !encontrado.comprado
+                        //actualizar servidor                        
+                        await this.cliente.toggleItem(encontrado.id, encontrado.comprado)
+                    }
+                },
+                async nuevoItem(nombre) {
+                    console.log("Añadir: "+nombre)
+                    var cliente = new ClienteAPI('http://localhost:3000/items')
+                    
+                    //Añade item a la bd
+                    var item = await cliente.addItem(nombre)
+
+                    //Añade item al array de items
+                    this.items.push(item)
+                },
+                async borrar(id){
+                    console.log("borrar: "+id)
+                    var cliente = new ClienteAPI('http://localhost:3000/items')
+
+                    //Obtiene el item a partir del id
+                    var encontrado = this.items.find(function(item){
+                        return item.id == id
+                    })
+
+                    //Borra el item de la bd
+                    await cliente.delItem(id)
+
+                    //Obtiene el indice del item en el array de items
+                    var index = this.items.indexOf(encontrado)
+
+                    //Borra al item del array de items
+                    this.items.splice(index,1)
+                }
+
+            },
+            //Añadido @borrar al template para que otros componentes lo puedan acceder
+            template: `
+            <div>
+                <h1>Lista de la compra</h1>
+                <nuevo-item @nuevo="nuevoItem"/>
+                <ul>                
+                    <item v-for="i in items"
+                        :nombre="i.nombre"
+                        :comprado="i.comprado"
+                        :id="i.id"
+                        @cambiarEstado="cambiarEstado"
+                        @borrar="borrar"
+                        >
+                        </item>
+
+                </ul>    
+            </div>    
+            `
+
+        })
+
+        app.component('item',{
+            props:["nombre","comprado","id"],
+            // Añadido boton para borrar el item
+            template: `
+              <li>
+                <a :class="comprado ? 'tachado' : '' "
+                  @click="$emit('cambiarEstado', id)">
+                {{nombre}}
+                </a>
+                <button @click="$emit('borrar',id)">Borrar</button>
+
+              </li>  
+            `
+        })
+
+        app.component('nuevo-item',{
+            data: function(){
+                return{
+                    nombre:""
+                }
+            },
+            template: `
+            <div>
+                <input type="text" v-model="nombre">
+                <button @click="$emit('nuevo', nombre)">Añadir</button>
+            </div>    
+            `
+        })
+
+
+        app.mount('#app')
+    </script>
+</body>
+</html>

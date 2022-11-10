@@ -1,0 +1,40 @@
+h1 {
+  text-align: center;
+  color: #008b8b;
+}
+
+body {
+  background-color: beige;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+}
+
+.tachado {
+  text-decoration: line-through gray;
+}
+
+#app {
+  max-width: 50%;
+  border-radius: 7px;
+  margin: 0 auto;
+  padding: 0;
+  font-size: 2em;
+  font-weight: lighter;
+}
+
+#app ul {
+  padding-inline-start: 0;
+}
+
+li {
+  background-color: #fff;
+  border-bottom: 1px solid #d3d3d3;
+  padding: .25em;
+  list-style: none;
+}
+
+li button {
+  float: right;
+}
+
+/*# sourceMappingURL=lista.3ffc223e.css.map */

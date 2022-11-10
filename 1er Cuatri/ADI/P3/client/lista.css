@@ -1,0 +1,38 @@
+h1 {
+    text-align: center;
+    color:darkcyan;
+}
+
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    background-color: beige;
+}
+
+.tachado {
+    text-decoration: line-through grey ;
+}
+
+#app {
+   max-width: 50%;
+   margin: 0 auto; 
+   font-size: 2em;
+   font-weight: lighter;
+   padding: 0px;
+   border-radius: 7px;
+}
+
+#app ul {
+    padding-inline-start: 0px; 
+}
+
+li {
+    border-bottom: 1px solid lightgrey  ; 
+    padding: 0.25em; 
+    list-style: none;
+    background-color: white;    
+}
+
+li button {
+    float: right;
+}
