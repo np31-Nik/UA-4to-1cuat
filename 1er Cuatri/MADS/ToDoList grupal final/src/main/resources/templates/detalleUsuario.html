@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head (titulo='Registrados')"></head>
+
+<body>
+<div th:replace="fragments :: navbar"></div>
+<div class="container">
+    <br>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-1">
+            <a class="btn btn-light btn-xs" th:href="@{/registrados}"/>Volver</a>
+        </div>
+        <div class="col-1">
+            <span th:if="${detalleUsuario.getAdmin()}">
+                <a class="btn btn-light btn-xs disabled" th:href="@{/bloquear/{id}(id=${detalleUsuario.id})}"/>
+                    <span th:if="${detalleUsuario.getBloqueado()}">Desbloquear</span>
+                    <span th:unless="${detalleUsuario.getBloqueado()}">Bloquear</span>
+                </a>
+            </span>
+            <span th:unless="${detalleUsuario.getAdmin()}">
+                <a class="btn btn-light btn-xs" th:href="@{/bloquear/{id}(id=${detalleUsuario.id})}"/>
+                    <span th:if="${detalleUsuario.getBloqueado()}">Desbloquear</span>
+                    <span th:unless="${detalleUsuario.getBloqueado()}">Bloquear</span>
+                </a>
+            </span>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class=col-3>
+        </div>
+        <div class="col-2">
+            <span style="display: inline">Id:</span>
+        </div>
+        <div class="col">
+            <span th:text="${detalleUsuario.id}"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class=col-3>
+        </div>
+        <div class="col-2">
+            <span style="display: inline">Nombre:</span>
+        </div>
+        <div class="col">
+            <span th:text="${detalleUsuario.nombre}"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class=col-3>
+        </div>
+        <div class="col-2">
+            <span style="display: inline">Email:</span>
+        </div>
+        <div class="col">
+            <span th:text="${detalleUsuario.email}"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class=col-3>
+        </div>
+        <div class="col-2">
+            <span style="display: inline">Fecha de nacimiento:</span>
+        </div>
+        <div class="col">
+            <span th:text="${detalleUsuario.fechaNacimiento}"></span>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments::javascript"/>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head (titulo='Cuenta')"></head>
+<body>
+<div th:replace="fragments :: navbar"></div>
+<h1>Perfil Usuario</h1>
+    <div class="container " >
+        <div class="col-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="nombre">
+                      <label>Nombre</label>
+                      <p th:text="${usuario.nombre}"></p>
+                    </div>
+                    <div class="email">
+                      <label>Email:</label>
+                      <p th:text="${usuario.email}"></p>
+                    </div>
+                    <div class="fecha">
+                      <label>Fecha: </label>
+                      <p th:text="${usuario.fechaNacimiento}"></p>
+                    </div>
+                    <div th:if="${usuario.getAdmin()}">
+                      <h1>ERES EL ADMINISTRADOR</h1>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <form method="post" th:action="@{usuarios/{id}/editar(id=${usuario.id})}" th:object="${UsuarioData}">
+                <div class="col">
+                    <div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
+                    <div class="alert alert-success" th:if="${info != null}" th:text="${info}"></div>
+                    <div class="form-group">
+                        <label for="Nombre">Nombre:</label>
+                        <input class="form-control" id="Nombre" name="Nombre" th:field="*{nombre}" type="text" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="fechaNacimiento">Fecha de nacimiento</label>
+                        <input id="fechaNacimiento" class="form-control" name="fechaNacimiento"
+                               placeholder="01-12-2019" th:field="*{fechaNacimiento}" required/>
+                    </div>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEditPassword">
+                        Cambiar contraseña
+                    </button>
+                    <button class="btn btn-primary" type="submit">Modificar datos</button>
+                    <a class="btn btn-link" th:href="@{/cuenta}">Cancelar</a>
+                </div>
+            </form>
+        </div>
+        <div class="modal fade" id="modalEditPassword" tabindex="-1" role="dialog" aria-labelledby="modalEditPasswordLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalEditPasswordLabel">Cambiar Contraseña</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="post" th:action="@{/{id}/editarContrasenya(id=${usuario.id})}" th:object="${UsuarioData}" th:onsubmit="return confirm('¿Estás seguro de que quieres cambiar la contraseña?');">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="contraseña">Contraseña actual:</label>
+                                <input type="password" class="form-control" id="contraseña" name="contraseña" th:field="*{contrasenyaActual}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contraseña">Nueva contraseña:</label>
+                                <input type="password" class="form-control" id="nuevaContraseña" name="contraseña" th:field="*{contrasenyaNueva}" required>
+                                <input type="password" class="form-control" id="nuevaContraseña2" name="contraseña" th:field="*{contrasenyaConfirmacion}" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="sumbit" class="btn btn-primary"  >Confirmar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="fragments::javascript"/>
+
+</body>
+
+
+
+
+</html>
+
+<style>
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+
+}
+</style>
