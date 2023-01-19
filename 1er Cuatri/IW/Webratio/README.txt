@@ -1,0 +1,2 @@
+Al hacer backup de nuestra BD con imagenes, y luego haciendo restore no se muestran las imagenes, por lo cual recomendamos subirlas manualmente desde la vista de admin o registrado.
+Hemos adjuntado algunas imagenes ejemplo dentro de la entrega.
