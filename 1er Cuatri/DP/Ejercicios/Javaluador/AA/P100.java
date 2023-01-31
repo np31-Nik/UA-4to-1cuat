@@ -104,7 +104,7 @@ public class P100{
 
 
 // Main de prueba
-/*
+
 public static void main(String args[]){
         P100 p = new P100();
         // Cad: N, L, D[]
@@ -114,5 +114,5 @@ public static void main(String args[]){
         System.out.println(p.bestSolution(cad2)); 
 
     }
-    */
+    
 }
