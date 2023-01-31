@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head (titulo='Registro')"></head>
+
+<body>
+<div class="container-fluid">
+
+    <div class="row justify-content-center mb-3">
+        <div class="col-auto">
+            <h2>Registro nuevo usuario</h2>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <form method="post" th:action="@{/registro}" th:object="${registroData}">
+                <div class="row justify-content-center">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="eMail">Correo electrónico</label>
+                            <input id="eMail" class="form-control" name="eMail" placeholder="Correo electrónico"
+                                   type="text" th:field="*{eMail}" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input id="nombre" class="form-control" name="nombre" placeholder="Nombre" type="text"
+                                   th:field="*{nombre}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Contraseña</label>
+                            <input id="password" class="form-control" name="password" placeholder="Contraseña"
+                                   type="password" th:field="*{password}" required/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fechaNacimiento">Fecha de nacimiento</label>
+                            <input id="fechaNacimiento" class="form-control" name="fechaNacimiento"
+                                   placeholder="01-12-2019" th:field="*{fechaNacimiento}"/>
+                        </div>
+                        <span th:if="${existeAdmin == false}">
+
+                            <div class="form-group">
+                                <input id="admin" class="form-check-input" type="checkbox" name="admin" value="" th:field="*{admin}">
+                                <label class = "form-check-label" for="admin">Usuario Administrador</label>
+                            </div>
+                        </span>
+
+                        <button type="submit" class="btn btn-primary">Registro</button>
+                        <a class="btn btn-link" href="/login">Ir a login</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row mt-3 justify-content-center">
+        <div class="col-9">
+            <div th:object="${registroData}">
+                <ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+                </ul>
+            </div>
+            <ul th:if="${error != null}" class="alert alert-danger">
+                <li th:text="${error}"></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments::javascript"/>
+
+</body>
+</html>

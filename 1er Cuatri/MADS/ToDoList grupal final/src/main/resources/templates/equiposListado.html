@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head (titulo='Equipos')"></head>
+<body>
+
+    <div th:replace="fragments :: navbar"></div>
+    <div class = "container">
+        <br>
+        <form method="post" th:action="@{/equipos}" th:object="${equipoData}">
+            <div class="form-group">
+                <div class="row justify-content-center">
+                    <div class="col-3">
+                        <input id="NombreEquipo" class="form-control" name="NombreEquipo"
+                               type="text" th:field="*{nombre}" placeholder="Nombre" required/>
+                        <input id="DescEquipo" class="form-control" name="DescEquipo"
+                               type="text" th:field="*{desc}" placeholder="Descripcion" required/>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                </div>
+            </div>
+        </form>
+        <div th:if="${listado.empty}">
+            <div class="d-flex justify-content-center">
+                <span>Todavia no hay ningun equipo</span>
+            </div>
+        </div>
+        <div th:unless="${listado.empty}">
+            <div class="d-flex justify-content-center">
+                <h3>Equipos Disponibles</h3>
+            </div>
+            <br>
+            <div th:if="${listado.empty}">
+                <p>No hay equipos</p>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-2"><h6>Id</h6></div>
+                <div class="col-4"><h6>Nombre</h6></div>
+            </div>
+            <div th:each="equipo : ${listado}">
+                <div class="row">
+                    <div class="col-2"></div>
+
+                    <div class="col-2">
+                        <p th:text="${equipo.id}"></p>
+                    </div>
+                    <div class="col-4">
+                        <a th:href="${'/equipos/' + equipo.id}"><p th:text="${equipo.nombre}"></p></a>
+                    </div>
+
+                    <div class="col-2" >
+                        <span th:if="${usuario.getAdmin()}">
+                            <a class= "btn btn-light btn-xs" th:href="@{'/equipos/'+${equipo.getId()}+'/eliminar'}">
+                                <span>Eliminar</span>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="fragments::javascript"/>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head (titulo='Registrados')"></head>
+
+<body>
+    <div th:replace="fragments :: navbar"></div>
+    <div class="container">
+        <br>
+        <div class="d-flex justify-content-center">
+            <h3>Usuarios Registrados</h3>
+        </div>
+        <br>
+        <div th:if="${usuarios.empty}">
+            <p>No hay usuarios regisrtrados</p>
+        </div>
+        <div th:unless="${usuarios.empty}">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-3">
+                    <h6>Id</h6>
+                </div>
+                <div class="col-3">
+                    <h6>Email</h6>
+                </div>
+            </div>
+            <div th:each="usuarioLista : ${usuarios}">
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-3 id">
+                        <p th:text="${usuarioLista.id}"></p>
+                    </div>
+                    <div class="col-3 email">
+                        <p th:text="${usuarioLista.email}"></p>
+                    </div>
+                    <div class="col-2">
+                        <a class="btn btn-light btn-xs" th:href="@{/registrados/{id}(id=${usuarioLista.id})}"/>Ver Detalle</a>
+                    </div>
+                    <div class="col-2">
+                        <span th:if="${usuarioLista.getAdmin()}">
+                            <a class="btn btn-light btn-xs disabled" th:href="@{/bloquear/{id}(id=${usuarioLista.id})}"/>
+                                <span th:if="${usuarioLista.getBloqueado()}">Desbloquear</span>
+                                <span th:unless="${usuarioLista.getBloqueado()}">Bloquear</span>
+                            </a>
+                        </span>
+                        <span th:unless="${usuarioLista.getAdmin()}">
+                            <a class="btn btn-light btn-xs" th:href="@{/bloquear/{id}(id=${usuarioLista.id})}"/>
+                                <span th:if="${usuarioLista.getBloqueado()}">Desbloquear</span>
+                                <span th:unless="${usuarioLista.getBloqueado()}">Bloquear</span>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div th:replace="fragments::javascript"/>
+</body>
+</html>

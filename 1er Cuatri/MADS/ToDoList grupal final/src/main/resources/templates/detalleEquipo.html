@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head (titulo='Equipo')"></head>
+<body>
+<div th:replace="fragments :: navbar"></div>
+<div class="container">
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-1">
+            <a class="btn btn-light btn-xs" th:href="@{/equipos}"/>Volver</a>
+        </div>
+        <span th:if="${UsuarioPerteneceAlEquipo}">
+                <a class="btn btn-light btn-xs" th:href="@{'/equipos/'+ ${idDetalleEquipo} +'/salir'}"/>
+                    <span>Salir</span>
+            </a>
+        </span>
+        <span th:unless="${UsuarioPerteneceAlEquipo}">
+                <a class="btn btn-light btn-xs" th:href="@{'/equipos/'+ ${idDetalleEquipo} +'/entrar'}"/>
+                    <span>Unirse</span>
+            </a>
+        </span>
+        <div class="col"></div>
+        <div class="col-1">
+            <span th:if="${usuario.getAdmin()}">
+                <a class="btn btn-light btn-xs" th:href="@{'/equipos/'+${idDetalleEquipo}+'/eliminar'}">
+                    <span>Eliminar</span>
+                </a>
+            </span>
+        </div>
+    </div>
+    <br>
+    <div th:if="${usuario.getAdmin()}">
+        <form method="post" th:action="@{'/equipos/' + ${idDetalleEquipo}}" th:object="${equipoData}">
+            <div class="form-group">
+                <div class="row justify-content-center">
+                    <div class="col-3">
+                        <input id="NombreEquipo" class="form-control" name="NombreEquipo"
+                               type="text" th:field="*{nombre}" placeholder="Nombre" required/>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Cambiar Nombre</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <br>
+    <div class="justify-content-center">
+        <b>Descripción: </b>
+        <a th:text="${equipoDesc}"></a>
+    </div>
+    <br>
+    <div th:if="${participantes.empty}">
+        <p>No hay usuarios</p>
+    </div>
+    <div th:unless="${participantes.empty}" class="col">
+        <div class="row">
+            <div class="col-1"><h6>Id</h6></div>
+            <div class="col-2"><h6>Nombre</h6></div>
+            <div class="col-3"><h6>Email</h6></div>
+        </div>
+        <div th:each="participante : ${participantes}">
+            <div class="row">
+
+                <div class="col-1">
+                    <p th:text="${participante.getId()}"></p>
+                </div>
+                <div class="col-2">
+                    <p th:text="${participante.getNombre()}"></p>
+                </div>
+                <div class="col-3">
+                    <p th:text="${participante.getEmail()}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:if="${participantes.contains(usuario) or usuario.getAdmin()}">
+        <div class="add tarea form">
+            <form method="post" th:action="@{'/equipos/' + ${idDetalleEquipo} + '/tareas'}" th:object="${tareaData}">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="TituloTarea">Titulo de la tarea</label>
+                            <input id="TituloTarea" class="form-control" name="TituloTarea"
+                                   type="text" th:field="*{titulo}" placeholder="Titulo" required/>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="FechaTope">Fecha Tope</label>
+                            <input id="FechaTope" class="form-control" name="FechaTope"
+                                   type="date" th:field="*{fechaTope}" placeholder="Fecha Tope"/>
+                        </div>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Añadir Tarea</button>
+                </div>
+            </form>
+        </div>
+        <div th:if="${tareas.empty}">
+            <p>No hay tareas</p>
+        </div>
+        <div th:unless="${tareas.empty}">
+            <div class="row">
+                <div class="col-1"><h6>Id</h6></div>
+                <div class="col-7"><h6>Título</h6></div>
+                <div class="col-4"><h6>Accion</h6></div>
+            </div>
+            <div th:each="tarea : ${tareas}">
+                <div class="row">
+                    <div class="col-1">
+                        <p th:text="${tarea.getId()}"></p>
+                    </div>
+                    <div class="col-7">
+                        <p th:text="${tarea.getTitulo()}"></p>
+                    </div>
+                    <div class="col-4">
+                        <span th:if="${usuario.getAdmin() or usuario.getId() == tarea.getUsuario().getId()}">
+                            <a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/editar(id=${tarea.id})}"/>editar</a>
+                            <button class="btn btn-danger btn-xs" onmouseover="" style="cursor: pointer;"
+                                    th:onclick="'del(\'/tareas/' + ${tarea.getId()} + '\')'">borrar</button>
+                            <a class="btn btn-success btn-xs" th:href="@{/tareas/{id}/finalizar(id=${tarea.id})}"/>finalizar</a>
+                        </span>
+                        <a class="btn btn-info btn-xs" th:href="@{/tareas/{id}/comentarios/(id=${tarea.id})}"/>comentarios</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<div th:replace="fragments::javascript"/>
+<script type="text/javascript">
+    function del(urlBorrar) {
+        if (confirm('¿Estás seguro/a de que quieres borrar la tarea?')) {
+            fetch(urlBorrar, {
+                method: 'DELETE'
+            }).then((res) => location.reload());
+        }
+    }
+</script>
+
+</body>
+</html>

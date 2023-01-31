@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head (titulo='Login')"></head>
+
+<body>
+<div class="container-fluid">
+  <div th:replace="fragments :: navbar"></div>
+  <div class="row mt-3">
+    <div class="col">
+      <h2 th:text="'Listado de tareas finalizadas de ' + ${usuario.nombre}"></h2>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Id</th>
+          <th>Tarea</th>
+          <th>Fecha Tope</th>
+          <th>Terminada</th>
+          <th>Acción</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="tarea: ${tareas}">
+          <td th:text="${tarea.id}"></td>
+          <td th:text="${tarea.titulo}"></td>
+          <span th:if="${tarea.fechaTope != null}">
+                        <td th:text="${tarea.fechaTope}"></td>
+                    </span>
+          <span th:unless="${tarea.fechaTope != null}">
+                        <td> <p></p></td>
+                    </span>
+          <td th:text="${tarea.fechaTerminado}"></td>
+          <td>
+            <a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/editar(id=${tarea.id})}"/>editar</a>
+            <button class="btn btn-danger btn-xs" onmouseover="" style="cursor: pointer;"
+                    th:onclick="'del(\'/tareas/' + ${tarea.id} + '\')'">borrar</button>
+            <a class="btn btn-success btn-xs" th:href="@{/tareas/{id}/restablecer(id=${tarea.id})}"/>restablecer</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col">
+      <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${!#strings.isEmpty(mensaje)}">
+        <span th:text="${mensaje}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+
+<div th:replace="fragments::javascript"/>
+
+<!-- Lanzamos una petición DELETE por JavaScript para borrar una tarea -->
+
+<script type="text/javascript">
+  function del(urlBorrar) {
+    if (confirm('¿Estás seguro/a de que quieres borrar la tarea?')) {
+      fetch(urlBorrar, {
+        method: 'DELETE'
+      }).then((res) => location.reload());
+    }
+  }
+</script>
+
+</body>
+</html>

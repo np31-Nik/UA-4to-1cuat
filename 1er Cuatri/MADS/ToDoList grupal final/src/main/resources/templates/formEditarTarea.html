@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head (titulo='Login')">
+    <link th:rel="stylesheet" th:href="@{/assets/bootstrap-colorpicker/css/bootstrap-colorpicker.css} "/>
+</head>
+
+<body>
+<div class="container-fluid">
+
+    <h2 th:text="'Modificación de la tarea ' + ${tarea.getId()}"></h2>
+
+    <form method="post" th:action="@{/tareas/{id}/editar(id=${tarea.id})}" th:object="${tareaData}">
+        <div class="col-6">
+        <div class="form-group">
+            <label for="titulo">Título de la tarea:</label>
+            <input class="form-control" id="titulo" name="titulo" required th:field="*{titulo}" type="text"/>
+            <label for="fechaTope">Fecha tope:</label>
+            <input class="form-control" id="fechaTope" name="titulo" th:field="*{fechaTope}" type="date"/>
+
+            <label for="prioridad">Prioridad:</label>
+            <select class="form-select" id="prioridad" name="prioridad">
+                <option value="0" th:selected="${tarea.getPrioridad() == 0}">Sin Prioridad</option>
+                <option value="1" th:selected="${tarea.getPrioridad() == 1}">1</option>
+                <option value="2" th:selected="${tarea.getPrioridad() == 2}">2</option>
+                <option value="3" th:selected="${tarea.getPrioridad() == 3}">3</option>
+            <br>
+            <label for="color-picker">Color de la tarea:</label>
+            <br>
+            <input class="form-control" id="color-picker" type="text" value="#ffffff" th:field="*{color}" />
+            <label for="categoria">Elige una categoria (opcional):</label>
+            <select class="form-control" id="categoria" name="categoria" th:field="*{categoria}">
+                <option th:value=null th:text="Ninguna"></option>
+                <option th:each="i : ${categorias}" th:value="${i.getId()}" th:text="${i.getNombre()}">
+                </option>
+
+            </select>
+        </div>
+        <button class="btn btn-primary" type="submit">Modificar tarea</button>
+        <a class="btn btn-link" th:href="@{/usuarios/{id}/tareas(id=${tarea.usuario.id})}">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+<div th:replace="fragments::javascript"/>
+
+</body>
+</html>

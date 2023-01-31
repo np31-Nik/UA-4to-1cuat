@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head (titulo)">
+    <meta charset="UTF-8"/>
+    <title th:text="${titulo}"></title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap-colorpicker.css} "/>
+
+</head>
+
+<div th:fragment="navbar">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/about">ToDoList</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active" th:if="${id != null}">
+                    <a class="nav-link" th:href="${'/usuarios/' + id + '/tareas'}">Tareas <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active" th:if="${id != null}">
+                    <a class="nav-link" th:href="${'/usuarios/' + id + '/tareasTerminadas'}">Tareas Terminadas<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item" th:if="${id != null}">
+                    <a class="nav-link" href="/equipos">Equipos</a>
+                </li>
+                <li class="nav-item" th:if="${id != null && usuario.getAdmin()}">
+                    <a class="btn btn-link" style="float:left" th:href="${'/registrados'}">Registrados</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item" th:if="${id == null}">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+                <li class="nav-item" th:if="${id == null}">
+                    <a class="nav-link" href="/registro">Registro</a>
+                </li>
+                <li class="nav-item dropdown" th:if="${id != null}">
+                    <a class="nav-link dropdown-toggle" th:text="${usuario.nombre}" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="/cuenta">Cuenta</a>
+                        <a class="dropdown-item" href="/logout">Salir</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div th:fragment="javascript">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/popper.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/bootstrap-colorpicker.js}"></script>
+    <script>
+        $(function () {
+            // Basic instantiation:
+            $('#color-picker').colorpicker({format:"hex"});
+
+            // Example using an event, to change the color of the #demo div background:
+            $('#color-picker').on('colorpickerChange', function(event) {
+                $('#color-picker').css('background-color', event.color.toString());
+            });
+        });
+    </script>
+</div>
+
+</html>

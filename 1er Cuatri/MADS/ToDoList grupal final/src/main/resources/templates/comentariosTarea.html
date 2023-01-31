@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head (titulo='Comentarios')"></head>
+
+<body>
+<div th:replace="fragments :: navbar"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-1 id">
+            <p>Id</p>
+        </div>
+        <div class="col-5 Comentario">
+            <p>Comentario</p>
+        </div>
+        <div class="col-2 Fecha">
+            <p>Fecha</p>
+        </div>
+
+        <div class="col-2">Acciones</div>
+    </div>
+    <div th:each="comentario : ${comentarios}">
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-1 id">
+                <p th:text="${comentario.getId()}"></p>
+            </div>
+            <div class="col-5 Comentario">
+                <p th:text="${comentario.getTexto()}"></p>
+            </div>
+            <div class="col-2 Fecha">
+                <p th:text="${comentario.getFecha()}"></p>
+            </div>
+
+            <div class="col-2">
+                <span th:if="${usuario.getAdmin() or usuario.getId() == comentario.getUsuario().getId()}">
+                    <a class="btn btn-danger btn-xs" th:href="@{/tareas/{id}/comentarios/{idComentario}/(id=${comentario.getTarea().getId()},idComentario=${comentario.getId()})}"/>
+                    Borrar
+                    </a>
+                </span>
+            </div>
+        </div>
+    </div>
+    <form method="post" th:action="@{/tareas/{id}/comentarios/(id=${tareaId})}" th:object="${comentarioData}">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="texto">Comentario:</label>
+                <input class="form-control" id="texto" name="texto" required th:field="*{texto}" type="text"/>
+            </div>
+            <button class="btn btn-primary" type="submit">Crear comentario</button>
+        </div>
+    </form>
+
+
+</div>
+<div th:replace="fragments::javascript"/>
+</body>
+</html>
